@@ -1,0 +1,367 @@
+<template>
+    <div class="slds-grid slds-grid_align-end">
+        <div class="slds-col">
+            <lightning-input value={findname} type="search" onclick={handleSearch} label="combobox" role="textbox"
+                variant="label-hidden" placeholder="Search" onchange={handleSearchChange}>
+            </lightning-input>
+        </div>
+
+        
+            <div class="slds-col" style="position: relative; bottom: 19px">
+                <c-supplier-site-facility record-id={recordId}></c-supplier-site-facility >
+            </div>
+        
+    </div>
+
+    <template if:false={showSearchedValues}>
+        <div class="slds-grid slds-wrap slds-grid_align-spread">
+            <template for:each={contacts} for:item="contact">
+                <div key={contact.recId} style="padding: 30px">
+                    <div class="slds-col slds-size_1-of-2 borderstyle">
+                        <div style="padding: 20px">
+                            <table>
+                                <tr>
+                                    <th data-id={contact.recId} style="padding: 10px 10px 10px 4px; text-align: left">
+                                        <p style="font-size: large">{contact.recName}</p>
+                                    </th>
+                                    <th style="padding: 10px 4px 10px 135px; text-align: right">
+                                        <lightning-button-icon style="padding: 30px;" icon-name="utility:delete" data-id={contact.recId}
+                                            onclick={showModal} slot="actions" alternative-text="Delete"
+                                            class="slds-m-left_xx-small" title="Delete">
+                                        </lightning-button-icon>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Facility Name</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-name={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recName} onchange={handleFacilityName} disabled />
+                                        <lightning-button-icon variant="bare" data-name={contact.recId}
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityName}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Facility Code</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-code={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recCode} onchange={handleFacilityCode} disabled />
+                                        <lightning-button-icon data-code={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCode}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Address</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-add={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recAddress} onchange={handleFacilityAdd} disabled />
+                                        <lightning-button-icon data-add={contact.recId} icon-name={iconName}
+                                            variant="bare" alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityAdd}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">City</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                                        <input data-city={contact.recId} style="
+                                        font-weight: 500;
+                                        border: 1px;
+                                        border-color: lightgrey;
+                                        border-style: none none solid none;
+                                        background-color: transparent;
+                                        height: 25%;
+                                        width: 90%;
+                                        resize: none;
+                                        outline: none;
+                                    " value={contact.recCity} onchange={handleFacilityCity} disabled />
+                                        <lightning-button-icon data-city={contact.recId} icon-name={iconName}
+                                            variant="bare" alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCity}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">State</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                                            <input data-state={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recState} onchange={handleFacilityState} disabled />
+                                        <lightning-button-icon data-state={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityState}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Country</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-country={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recCountry} onchange={handleFacilityCountry} disabled />
+                                        <lightning-button-icon data-country={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCountry}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={showSearchedValues}>
+        <div class="slds-grid slds-wrap slds-grid_align-spread">
+            <template for:each={searchList} for:item="contact">
+                <div key={contact.recId} style="padding: 30px">
+                    <div class="slds-col slds-size_1-of-2 borderstyle">
+                        <div style="padding: 20px">
+                            <table>
+                                <tr>
+                                    <th data-id={contact.recId} style="padding: 10px 10px 10px 4px; text-align: left">
+                                        <p style="font-size: large">{contact.recName}</p>
+                                    </th>
+                                    <th style="padding: 10px 4px 10px 135px; text-align: right">
+                                        <lightning-button-icon style="padding: 30px;
+                                    " icon-name="utility:delete" data-id={contact.recId}
+                                            onclick={showModal} slot="actions" alternative-text="Delete"
+                                            class="slds-m-left_xx-small" title="Delete"></lightning-button-icon>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Facility Name</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-name={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recName} onchange={handleFacilityName} disabled />
+                                        <lightning-button-icon variant="bare" data-name={contact.recId}
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityName}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Facility Code</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-code={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recCode} onchange={handleFacilityCode} disabled />
+                                        <lightning-button-icon data-code={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCode}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">Address</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-add={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recAddress} onchange={handleFacilityAdd} disabled />
+                                        <lightning-button-icon data-add={contact.recId} icon-name={iconName}
+                                            variant="bare" alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityAdd}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">City</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-city={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recCity} onchange={handleFacilityCity} disabled />
+                                        <lightning-button-icon data-city={contact.recId} icon-name={iconName}
+                                            variant="bare" alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCity}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60));">State</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                                        <input data-state={contact.recId} style="
+                                        font-weight: 500;
+                                        border: 1px;
+                                        border-color: lightgrey;
+                                        border-style: none none solid none;
+                                        background-color: transparent;
+                                        height: 25%;
+                                        width: 90%;
+                                        resize: none;
+                                        outline: none;
+                                    " value={contact.recState} onchange={handleFacilityState} disabled />
+                                        <lightning-button-icon data-state={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityState}></lightning-button-icon>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="padding: 4px; color: var(--lwc-colorTextLabel,rgb(62, 62, 60)); ">Country</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="padding: 0 4px 8px 4px">
+                                        <input data-country={contact.recId} style="
+                                            font-weight: 500;
+                                            border: 1px;
+                                            border-color: lightgrey;
+                                            border-style: none none solid none;
+                                            background-color: transparent;
+                                            height: 25%;
+                                            width: 90%;
+                                            resize: none;
+                                            outline: none;
+                                        " value={contact.recCountry} onchange={handleFacilityCountry} disabled />
+                                        <lightning-button-icon data-country={contact.recId} variant="bare"
+                                            icon-name={iconName} alternative-text="Settings" title="Settings"
+                                            onclick={editFacilityCountry}></lightning-button-icon>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template if:true={messageResult}>
+        <p>No results found!!!</p>
+    </template>
+    <template if:true={openModal}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+            aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container fix">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        <b>Delete Facility</b>
+                    </h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div style="height: 20%" class="slds-modal__content slds-p-around_medium center-content"
+                    id="modal-content-id-2">
+                    <h3 style="margin: 18px; text-align: center">
+                        Are you sure you want to delete this Facility?
+                    </h3>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">
+                        Cancel
+                    </button>
+                    <button class="slds-button slds-button_brand" onclick={handleFileDelete} title="Delete">
+                        Delete
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

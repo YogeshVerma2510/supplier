@@ -1,0 +1,373 @@
+<template>
+
+
+    <div class="slds-grid slds-gutters slds-float--right">
+        <div class="slds-col slds-has-right-magnet">
+            <span>
+                <lightning-input value={findname} onchange={handleChange} onclick={handleClick} name="enter-search"
+                    aria-activedescendant="option1" aria-autocomplete="list" aria-controls="listbox-id-12"
+                    role="textbox" placeholder="Search Part ID/Name" type="search" variant="label-hidden"
+                    class="slds-p-right-small"></lightning-input>
+            </span>
+        </div>
+        <div class="slds-col slds-has-right-magnet">
+            <!-- <template if:true={showAdd}> -->
+            <span>
+                <lightning-button label="Add Part/Bom" onclick={open} columns={columns} icon-name="utility:add" size="large"
+                    class="slds-p-right_small" variant="Neutral"></lightning-button>
+            </span>
+            <!-- </template> -->
+        </div>
+    </div><br><br>
+
+    <!-- WITH DELETE -->
+
+    <div class="slds-p-around_medium lgc-bg">
+        <!-- <template if:true={table}>
+        <template if:true={colwithdel}> -->
+
+        <template if:false={showSearchedValues}>
+
+            <c-custom-supplier-datatable columns={columns} key-field="recId" data={data} onsave={handleSave}
+                onrowaction={openModal} draft-values={draftValues} resize-column-disabled="true"
+                column-width-mode="100%" onrowselection={getSelectedRecords} hide-checkbox-column="true">
+            </c-custom-supplier-datatable>
+        </template>
+
+        <template if:true={showSearchedValues}>
+            <c-custom-supplier-datatable columns={columns} key-field="recId" data={searchList} onsave={handleSave}
+                onrowaction={openModal} draft-values={draftValues} resize-column-disabled="true"
+                column-width-mode="100%" onrowselection={getSelectedRecords} hide-checkbox-column="true">
+            </c-custom-supplier-datatable>
+        </template>
+
+        <template if:true={messageResult}>
+            <p>No results found!!!</p>
+        </template>
+        <!-- 
+        </template>
+    </template> -->
+
+
+
+
+        <!-- WITHOUT DELETE       -->
+
+
+        <!-- <template if:false={table}>
+        <template if:true={colwithoutdel}>
+            <template if:false={showSearchedValues}>
+                <lightning-datatable columns={columns} key-field="recId" data={data} onsave={handleSave}
+                    onrowaction={openModal} draft-values={draftValues} resize-column-disabled="true"
+                    column-width-mode="fixed" onrowselection={getSelectedRecords} hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:true={showSearchedValues}>
+                <lightning-datatable columns={columns} key-field="recId" data={searchList} onsave={handleSave}
+                    onrowaction={openModal} draft-values={draftValues} resize-column-disabled="true"
+                    column-width-mode="fixed" onrowselection={getSelectedRecords} hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:true={messageResult}>
+                <p>No results found!!!</p>
+            </template>
+        </template>
+    </template> -->
+
+    </div>
+
+    <!--Add Part popup start-->
+    <template if:true={modal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+
+
+            <div class="slds-modal__container slds-p-around_x-small">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={close}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="font-weight:bold">
+                        Add Part/Bom</h3>
+
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <form>
+                        <div class="slds-grid slds-gutters slds-m-horizontal-large">
+                            <div class="slds-col">
+                                <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                    style="color: #1b1b1b;padding-bottom: 5px; ">
+                                    <em style="color: red;"> </em> Search Part &nbsp;
+                                </legend>
+                                <div class="slds-form-element__control">
+                                    <div class="slds-combobox_container" aria-expanded="true" aria-haspopup="listbox"
+                                        role="combobox">
+                                        <div id="box"
+                                            class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+
+                                            <template if:false={isAssigneeValueSelected}>
+                                                <div class="slds-p-top_none">
+                                                    <lightning-input id="form-element-03" type="search"
+                                                        value={searchTermAssignee} onchange={onAssigneeChange}
+                                                        variant="label-hidden" required
+                                                        class="requiredfield resetfields"
+                                                        message-when-value-missing="Please Select a Part Id"
+                                                        autocomplete="off" placeholder="Search Parts.." disabled={SrPart}>
+                                                    </lightning-input>
+
+                                                </div>
+                                            </template>
+                                            <!--<template if:true={searchPart}>-->
+                                                <template if:true={isAssigneeValueSelected}>
+                                                    <!-- <template if:false={isAssigneeValueSelectedb}> -->
+                                                    <div id="lookup-pill" class="slds-pill_container">
+                                                        <lightning-pill class="pillSize" label={tempPartNum}
+                                                            name={tempPartNum} onremove={handleRemoveAssigneePill}>
+                                                            <lightning-icon icon-name="standard:account"
+                                                                alternative-text="pillicon"></lightning-icon>
+                                                        </lightning-pill>
+                                                    </div>
+                                                </template>
+                                                <!-- </template> -->
+
+                                                <template if:true={showDropDownAssignee}>
+                                                    <div
+                                                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid scroll-1">
+                                                        <ul class="slds-listbox slds-listbox_vertical recordListBox">
+                                                            <template if:false={message}>
+                                                                <template for:each={recordsList} for:item="user">
+                                                                    <li key={user.Id} class="slds-listbox__item"
+                                                                        onclick={onAssigneeSelect} data-id={user.Id}
+                                                                        role="presentation"
+                                                                        data-name={user.Number__c}>
+                                                                        <div aria-selected="true" id={user.Id}
+                                                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                            role="option" tabindex="0">
+                                                                            <span class="slds-media__figure">
+                                                                                <span
+                                                                                    class="slds-icon_container slds-icon-standard-avatar">
+                                                                                    <lightning-icon
+                                                                                        icon-name="standard:account"
+                                                                                    size="small"></lightning-icon>
+                                                                                </span>
+                                                                            </span>
+                                                                            <span class="slds-media__body">
+                                                                                <span
+                                                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">{user.Number__c}</span>
+                                                                                <span
+                                                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">{user.Name}</span>
+
+                                                                            </span>
+
+                                                                        
+                                                                        </div>
+                                                                    </li>
+                                                                </template>
+                                                            </template>
+                                                            <template if:true={message}>
+                                                                <li class="slds-listbox__item">
+                                                                    <span
+                                                                        class="slds-media slds-listbox__option_entity">{message}</span>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+                                            <!--</template>-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
+                        <!-- <div class="slds-modal__content slds-p-around_medium"> -->
+                    
+                            <!-- <div class="slds-grid slds-gutters slds-m-horizontal-large"> -->
+                                <div class="slds-grid slds-gutters slds-m-horizontal-large slds-m-bottom_medium">
+                                <div class="slds-col slds-size_1-of-2 slds-form-element__control"
+                            style="padding-bottom: 20px; padding-right: 20px; font-weight: normal;">
+                                <!-- <div class="slds-col"> -->
+                                    <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                        style="color: #1b1b1b;padding-bottom: 5px; ">
+                                        <em style="color: red;"> </em> Search Bom &nbsp;
+                                    </legend>
+                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container" aria-expanded="true" aria-haspopup="listbox"
+                                            role="combobox">
+                                            <div id="boxe"
+                                                class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                               
+                                                <template if:false={isAssigneeValueSelectedb}>
+                                                    <div class="slds-p-top_none">
+                                                        <lightning-input id="form-element-034" type="search"
+                                                            value={searchTermAssigneeb} onchange={onAssigneeChangeb}
+                                                            variant="label-hidden" required
+                                                            class="requiredfield resetfields"
+                                                            message-when-value-missing="Please Select a Bom Id"
+                                                            autocomplete="off" placeholder="Search Bom.." disabled={SrBom}>
+                                                        </lightning-input>
+    
+                                                    </div>
+                                                </template>
+                                                <!--<template if:true={searchBom}>-->
+                                                <template if:true={isAssigneeValueSelectedb}>
+                                                    <div id="lookup-pilll" class="slds-pill_container">
+                                                        <lightning-pill class="pillSize" label={tempPartNumb}
+                                                            name={tempPartNumb} onremove={handleRemoveAssigneebPill}>
+                                                            <lightning-icon icon-name="standard:account"
+                                                                alternative-text="pillicon"></lightning-icon>
+                                                        </lightning-pill>
+                                                    </div>
+                                                </template>
+    
+                                                <template if:true={showDropDownAssigneeb}>
+                                                    <div
+                                                        class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid scroll-1">
+                                                        <ul class="slds-listbox slds-listbox_vertical recordListBox">
+                                                            <template if:false={message}>
+                                                                <template for:each={recordsListb} for:item="userb">
+                                                                    <li key={userb.Id} class="slds-listbox__item"
+                                                                        onclick={onAssigneeSelectb} data-id={userb.Id}
+                                                                        role="presentation"
+                                                                        data-name={userb.BOM_Number__c}>
+                                                                        <div aria-selected="true" id={userb.Id}
+                                                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                                                            role="option" tabindex="0">
+                                                                            <span class="slds-media__figure">
+                                                                                <span
+                                                                                    class="slds-icon_container slds-icon-standard-avatar">
+                                                                                    <lightning-icon
+                                                                                        icon-name="standard:account"
+                                                                                        size="small"></lightning-icon>
+                                                                                </span>
+                                                                            </span>
+                                                                            <span class="slds-media__body">
+                                                                                <span
+                                                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">{userb.BOM_Number__c}</span>
+                                                                                <span
+                                                                                    class="slds-listbox__option-text slds-listbox__option-text_entity">{userb.Name}</span>
+    
+                                                                            </span>
+    
+                                                                           
+                                                                        </div>
+                                                                    </li>
+                                                                </template>
+                                                            </template>
+                                                            <template if:true={message}>
+                                                                <li class="slds-listbox__item">
+                                                                    <span
+                                                                        class="slds-media slds-listbox__option_entity">{message}</span>
+                                                                </li>
+                                                            </template>
+                                                        </ul>
+                                                    </div>
+                                                </template>
+                                                <!--</template>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                <!-- </div> -->
+                            </div>
+                        
+                
+                            <div class="slds-col slds-size_1-of-2 slds-form-element__control"
+                            style="padding-bottom: 20px; padding-right: 20px; font-weight: normal;">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                        style="color: #1b1b1b;padding-bottom: 5px; ">
+                                        <em style="color: red;"> </em> Associated Revision &nbsp;
+                                    </legend>
+                                    
+                            <c-revision-lookup-supplier icon-name="standard:account" record-id={sPartIdb}  onrecordselection={onProcessSelection}
+                               >
+                            </c-revision-lookup-supplier>
+                        </div>
+                        <br>
+                        </div>
+
+                        <div class="slds-grid slds-gutters slds-m-horizontal-large slds-m-bottom_medium">
+                            <div class="slds-col slds-size_1-of-2">
+                                <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                    style="color: #1b1b1b;padding-bottom: 5px; ">
+                                    Lead Time &nbsp;
+                                </legend>
+                                <lightning-input type="number" value={sPartLead} class="resetfields"
+                                    onchange={handleLead} variant="label-hidden"></lightning-input>
+
+                            </div><br>
+                            <div class="slds-col slds-size_1-of-2">
+                                <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                    style="color: #1b1b1b;padding-bottom: 5px; ">
+                                    Part Type &nbsp;
+                                </legend>
+                                <c-part-type-picklist onvalueselected={handleSelected} variant="label-hidden">
+                                </c-part-type-picklist>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <footer class="slds-modal__footer">
+
+                    <div>
+                        <button class="slds-button slds-button_neutral" onclick={close}>
+                            Cancel
+                        </button>&nbsp;
+                        <button class="slds-button slds-button_brand" onclick={save} title="Save">
+                            Done
+                        </button>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--Add Part popup end-->
+
+    <!-- modal Delete Popup start -->
+
+    <template if:true={bShowModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true"
+            aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" size="small"
+                            variant="inverse">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" style="font-weight:bold" class="slds-text-heading_medium slds-hyphenate">
+
+                        Delete Part</h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <br><br>
+                    <h5 style="text-align: center"> Are you sure want to delete this Part?</h5>
+                    <br><br>
+                </div>
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal}>Cancel</button>
+                    &nbsp;&nbsp;
+                    <button class="slds-button slds-button_brand" onclick={handleFileDelete} title="Cancel">
+                        Delete
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- modal Delete Popup end -->
+</template>

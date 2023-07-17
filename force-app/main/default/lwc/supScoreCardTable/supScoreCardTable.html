@@ -1,0 +1,371 @@
+<template>
+
+    <!-- <div
+        style="height: 100vh; min-height: 100vh; max-height: 100vh; padding-right: 25px; padding-left: 10px; overflow: hidden auto;">
+        <div class="slds-grid slds-grid_align-end slds-m-top_x-small">
+            <div class="slds-col ">
+                <lightning-input type="search" label="combobox" role="textbox" variant="label-hidden"
+                    placeholder="Search criteria" onchange={handleSearch} value={searchKey}>>
+                </lightning-input>
+            </div>
+        </div> -->
+    <!-- <template if:true={supplier.allData}> -->
+    <!-- <template for:each={allData} for:item="rowData">     -->
+
+    <table key={rowData.recId} class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_x-small"
+        style="width: 100%;">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <!--1-->
+                <th scope='col' style="width: 50%;">Feedback Criteria</th>
+                <!--2-->
+                <th scope='col' style="width: 50%;">Rating(Out of 5)</th>
+                <!--3-->
+                <!-- <th scope='col' style="width: 30%;">Comments</th> -->
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- <template for:each={allData} for:item="rowData">
+                    <template iterator:it={rowData}>
+                        <tr if:true={it.first} key={it.value.Record_Type_Name__c}>
+                            <td style="width: 50%;"><b>{it.value.FRGPLM__Record_Type_Name__c}</b></td>
+                            <td style="width: 20%;"></td>
+                            <td style="width: 30%;"></td>
+                        </tr>
+                        <tr key={it.value.Id}>
+                            <td style="width: 50%;">{it.value.FRGPLM__Supplier_Feedback_Criteria__c}</td>
+                            <td style="width: 20%;">
+                                <input class="slds-truncate"
+                                    style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                                    type="number" max="5" min="0" data-rating={it.value.Id}
+                                    value={it.value.FRGPLM__Rating_out_of_5__c} onchange={mgmtRatingChange} disabled />
+
+                                <lightning-button-icon icon-name={iconName} variant="bare" data-rating={it.value.Id}
+                                    size="small" title="Edit rating" onclick={mgmtRatingEdit} align="left">
+                                </lightning-button-icon>
+                            </td>
+                            <td style="width: 30%;">
+                                <template if:true={it.value.FRGPLM__Comments__c}>
+
+
+                                    <input class="slds-truncate" style="
+                            border-style: none;
+                            resize: none;
+                            max-width: 30%;
+                            background-color: transparent;
+                            font-size: small;
+                           
+                          " type="text" data-comments={it.value.Id} value={it.value.FRGPLM__Comments__c}
+                                        onchange={mgmtCommentsChange} disabled />
+
+                                    <lightning-button-icon icon-name={iconName} variant="bare"
+                                        data-comments={it.value.Id} size="small" title="Edit Comments"
+                                        onclick={mgmtCommentsEdit} align="left">
+                                    </lightning-button-icon>
+                                </template>
+
+                                <template if:false={it.value.FRGPLM__Comments__c}>
+
+
+                                    <input class="slds-truncate" style="
+                            border-style: none;
+                            resize: none;
+                            max-width: 30%;
+                            background-color: transparent;
+                            font-size: small;
+                           
+                          " type="text" data-comments={it.value.Id} value=" " onchange={mgmtCommentsChange} disabled />
+
+                                    <lightning-button-icon icon-name={iconName} variant="bare"
+                                        data-comments={it.value.Id} size="small" title="Edit Comments"
+                                        onclick={mgmtCommentsEdit} align="left">
+                                    </lightning-button-icon>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </template> -->
+
+            <!-- <template for:each={allData} for:item="rowData">
+                         <tr if:true={it.first} key={it.value.Supplier_Feedback_Criteria__c}>
+                            <td style="width: 50%;"><b>{it.value.Supplier_Feedback_Criteria__c}</b></td>
+                            <td style="width: 20%;"></td>
+                            <td style="width: 30%;"></td>
+                        </tr> -->
+
+
+
+            <template for:each={allData} for:item="rowData">
+                <tr key={rowData.recId}>
+
+                    <td style="width: 50%;"><b>Cost/Contracts</b></td>
+                    <td style="width: 50%;"></td>
+                    <!-- <td style="width: 30%;"></td> -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Price changes and contract terms are documented and transparent</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-price={rowData.recId} value={rowData.price}
+                            onchange={mgmtPriceChange} disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-price={rowData.recId}
+                            size="small" title="Edit Price changes and contract terms are documented and transparent"
+                            onclick={mgmtPriceEdit} align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>   -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Good and Services are price competitive</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-good={rowData.recId} value={rowData.good}
+                            onchange={mgmtGoodChange} disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-good={rowData.recId}
+                            size="small" title="Edit Good and Services are price competitive" onclick={mgmtGoodEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Cost reduction ideas are shared and resourced</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-cost={rowData.recId}
+                            value={rowData.cost} onchange={mgmtCostChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-cost={rowData.recId}
+                            size="small" title="Edit Cost reduction ideas are shared and resourced" onclick={mgmtCostEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;"><b>Delivery</b></td>
+                    <td style="width: 50%;"></td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">On time delivery to meet scheduled materials or service requirements</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-delivery={rowData.recId}
+                            value={rowData.delivery} onchange={mgmtDeliveryChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-delivery={rowData.recId}
+                            size="small" title="Edit On time delivery to meet scheduled materials or service requirements" onclick={mgmtDeliveryEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Utilize effective systems to meet procure to pay needs</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-utilize={rowData.recId}
+                            value={rowData.utilize} onchange={mgmtUtilizeChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-utilize={rowData.recId}
+                            size="small" title="Edit Utilize effective systems to meet procure to pay needs" onclick={mgmtUtilizeEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Needs(ex:inventory and transportation)</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-need={rowData.recId}
+                            value={rowData.need} onchange={mgmtNeedChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-need={rowData.recId}
+                            size="small" title="Edit Needs(ex:inventory and transportation)" onclick={mgmtNeedEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;"><b>Management</b></td>
+                    <td style="width: 50%;"></td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Provides ideas that helps buyers organization acheive desired solutions</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-provide={rowData.recId}
+                            value={rowData.provide} onchange={mgmtProvideChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-provide={rowData.recId}
+                            size="small" title="Edit Provides ideas that helps buyers organization acheive desired solutions" onclick={mgmtProvideEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Management Commitment and responsiveness</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-management={rowData.recId}
+                            value={rowData.management} onchange={mgmtManageChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-management={rowData.recId}
+                            size="small" title="Edit Management Commitment and responsiveness" onclick={mgmtManageEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Appropriate Technical capabilities and skills</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-appropriate={rowData.recId}
+                            value={rowData.appropriate} onchange={mgmtAppropriateChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-appropriate={rowData.recId}
+                            size="small" title="Edit Appropriate Technical capabilities and skills"
+                            onclick={mgmtAppropriateEdit} align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;"><b>Quality</b></td>
+                    <td style="width: 50%;"></td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Maintains industry standard certification for testing and audits</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-maintain={rowData.recId}
+                            value={rowData.maintain} onchange={mgmtMaintainChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-maintain={rowData.recId}
+                            size="small" title="Edit Maintains industry standard certification for testing and audits" onclick={mgmtMaintainEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Demonstrated compliance with specifications and quality requirements</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-demo={rowData.recId}
+                            value={rowData.demo} onchange={mgmtDemoChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-demo={rowData.recId}
+                            size="small" title="Edit Demonstrated compliance with specifications and quality requirements" onclick={mgmtDemoEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Commited to process performance and continuous improvement</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-commited={rowData.recId}
+                            value={rowData.commited} onchange={mgmtCommitedChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-commited={rowData.recId}
+                            size="small" title="Edit Commited to process performance and continuous improvement" onclick={mgmtCommitedEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.Id}>
+                    <td style="width: 50%;"><b>Support</b></td>
+                    <td style="width: 50%;"></td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Provides effective and timely communication regarding changes</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-eff={rowData.recId}
+                            value={rowData.eff} onchange={mgmtEffChange} disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-eff={rowData.recId} size="small"
+                            title="Edit Provides effective and timely communication regarding changes" onclick={mgmtEffEdit} align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>  -->
+                </tr>
+
+                <tr key={rowData.recId}>
+                    <td style="width: 50%;">Responds to requests in timely and effective manner</td>
+                    <td style="width: 50%;">
+                        <input class="slds-truncate"
+                            style="border-style: none;resize: none;max-width: 20%;background-color: transparent;font-size: small;"
+                            type="number" max="5" min="0" data-respond={rowData.recId}
+                            value={rowData.respond} onchange={mgmtRespondChange}
+                            disabled />
+
+                        <lightning-button-icon icon-name={iconName} variant="bare" data-respond={rowData.recId}
+                            size="small" title="Edit Responds to requests in timely and effective manner" onclick={mgmtRespondEdit}
+                            align="left">
+                        </lightning-button-icon>
+                    </td>
+                    <!-- <td style="width: 30%;"></td>   -->
+                </tr>
+            </template>
+            <!-- </template>  -->
+        </tbody>
+    </table>
+</template>
+<!-- </template> -->
+<!-- </div> -->
+<!-- </template> -->

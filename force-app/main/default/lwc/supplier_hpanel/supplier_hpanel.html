@@ -1,0 +1,90 @@
+<template>
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-icon slds-icon--large">
+                        <img src={Bicon} style="padding-right: 8px; border-radius: 4px" class="icon"
+                            alt="Issues" />&nbsp;&nbsp;
+                    </div>
+                    <!-- <div class="slds-icon slds-icon--large">
+                        <img src={ChangeRequestIcon} style="padding-right: 8px; 
+                         border-radius: 4px;" class="" alt="Issues">&nbsp;&nbsp;
+                        <lightning-iconicon
+                          icon-name="standard:account"
+                          alternative-text="Account"
+                          style="padding: 3px"
+                          title="Account"
+                        >
+                        </lightning-icon>
+                      </div> -->
+                    <!-- <div class="slds-media__figure" style="padding-top: 3px;">
+                        <img src={Bicon} class="icon" alt="boms">
+                    </div> -->
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span>Supplier</span>
+
+                                    <span class="slds-page-header__title slds-truncate"
+                                        title={name}>{name}</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                    <c-send-rfq record-id={recordId}></c-send-rfq>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-page-header__row slds-page-header__row_gutters">
+            <div class="slds-page-header__col-details">
+                <ul class="slds-page-header__detail-row">
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title slds-truncate" title={number}>
+                            Suppplier Number
+                        </div>
+                        <div style="font-weight: bold" class="slds-truncate">{number}</div>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title slds-truncate" title={gstin}>
+                            Supplier GSTIN Number
+                        </div>
+                        <div style="font-weight: bold" class="slds-truncate">{gstin}</div>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title slds-truncate" title={class1}>
+                            Class
+                        </div>
+                        <div style="font-weight: bold" class="slds-truncate">
+                            {class1}
+                        </div>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title slds-truncate" title={amlactive}>
+                            AML Active
+                        </div>
+                        <div style="font-weight: bold" class="slds-truncate">
+                            {amlactive}
+                        </div>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <div class="slds-text-title slds-truncate" title={amlinactive}>
+                            AML In-Active
+                        </div>
+                        <div style="font-weight: bold" class="slds-truncate">
+                            {amlinactive}
+                        </div>
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

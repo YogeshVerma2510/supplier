@@ -1,0 +1,116 @@
+<template>
+    <!-- lightning button for open custom modal window -->
+    <br>&nbsp;&nbsp;
+    <lightning-button label="Add Facility" onclick={openmodal} icon-name="utility:add" size="large"
+        class="slds-m-right_small" variant="Neutral"></lightning-button>
+    <!--1st modal popup start-->
+    <template if:true={openmodel}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-04" aria-modal="true"
+            aria-describedby="modal-content-id-4" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" style="width: 80%;">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closemodal}>
+                        <lightning-icon icon-name="utility:close" size="small" variant="inverse"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 style="font-weight:bold" class="slds-text-heading_medium slds-hyphenate">Add Facility
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h3 style="color:rgb(71, 71, 71);font-weight:bold"
+                        class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">Site Facility
+                    </h3>
+                    <div class="slds-grid slds-wrap">
+                        <lightning-messages></lightning-messages>
+
+                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b; padding-bottom: 5px;">
+                                <em style="color: red;"> </em> Facility Name &nbsp;
+                            </legend>
+                            <lightning-input class="requiredfield resetfields"
+                                message-when-value-missing="Complete this field" required variant="label-hidden"
+                                onchange={handleName}>
+                            </lightning-input>
+                            <br>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b; padding-bottom: 5px;">
+                                <em style="color: red;"> </em> Facility Code &nbsp;
+                            </legend>
+                            <lightning-input class="requiredfield resetfields"
+                                message-when-value-missing="Complete this field" required variant="label-hidden"
+                                onchange={handleCode}>
+                            </lightning-input>
+                            <br>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-form-element__control slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b;padding-bottom: 5px; ">
+                                <em style="color: red;"> </em> Address &nbsp;
+                            </legend>
+                            <lightning-input class="resetfield requiredfield" onchange={handleAddress}
+                                variant="label-hidden" required message-when-value-missing="Complete this field">
+                            </lightning-input>
+                            <br>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-form-element__control slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b; padding-bottom: 5px;">
+                                <em style="color: red;"> </em> State/Province &nbsp;
+                            </legend>
+                            <lightning-input class="resetfield requiredfield" onchange={handleState}
+                                required variant="label-hidden"
+                                pattern="^([^0-9]*)$"  message-when-pattern-mismatch="Numbers not allowed" message-when-value-missing="Complete this field">
+                            </lightning-input>
+                            <br>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-form-element__control slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b; padding-bottom: 5px;">
+                                <em style="color: red;"> </em> City &nbsp;
+                            </legend>
+                            <lightning-input class="resetfield requiredfield" onchange={handleCity} required
+                                variant="label-hidden" 
+                                pattern="^([^0-9]*)$"  message-when-pattern-mismatch="Numbers not allowed" message-when-value-missing="Complete this field">
+                            </lightning-input>
+                            <br>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+                            <legend class="slds-form-element_legend slds-form-element_label slds-float_left"
+                                style="color: #1b1b1b; padding-bottom: 5px;">
+                                <em style="color: red;"> </em> Country &nbsp;
+                            </legend>
+                            <lightning-input class="requiredfield resetfields"
+                            pattern="^([^0-9]*)$"  message-when-pattern-mismatch="Numbers not allowed"
+                                message-when-value-missing="Complete this field" required variant="label-hidden"
+                                onchange={handleCountry}>
+                            </lightning-input>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+
+                <!--Button-->
+                <footer class="slds-modal__footer">
+                    <div>
+                        <button class="slds-button slds-button_neutral" onclick={closemodal}>
+                            Cancel
+                        </button>&nbsp;
+                        <lightning-button variant="brand" label="Save" onclick={save}> </lightning-button>
+                    </div>
+                </footer>
+            </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" id="modalBackdrops"></div>
+    </template>
+</template>

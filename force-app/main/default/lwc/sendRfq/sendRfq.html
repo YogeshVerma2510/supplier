@@ -1,0 +1,90 @@
+<template>
+    <lightning-button label="Send RFQ" title="Send RFQ" onclick={btnClik} class="slds-m-left_x-small"></lightning-button>
+    <!--<lightning-button class="slds-m-left_x-small">
+        <button class="slds-button slds-button_neutral" title="Send RFQ" type="button" onclick={btnClik}>Send RFQ</button>
+    </lightning-button>-->
+    <template if:true={showPopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Meaningful description of the modal content" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Send RFQ</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless" id="modal-content-id-1">
+                    <lightning-input type="search" label="combobox" role="textbox" variant="label-hidden"
+                        placeholder="Search Parts..." onchange={handleSearch} value={searchKey}>
+                    </lightning-input>
+                    <div style="overflow:auto auto;">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_x-small"
+                            style="max-width: 100%;">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <!--1-->
+                                    <th scope='col' style="max-width: 5%;"></th>
+                                    <!--2-->
+                                    <th scope='col' style="max-width: 30%;">Part Name</th>
+                                    <!--3-->
+                                    <!--<th scope='col' style="max-width: 30%;">Part Number</th>-->
+                                    <!--4-->
+                                    <th scope='col' style="max-width: 35%;">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={partData} for:item="rowData" for:index="index">
+                                    <tr key={rowData.recId}>
+                                        <td style="max-width: 5%;">
+                                            <input data-iid={rowData.recId} class='check' type="checkbox" value={rowData.recId}
+                                                onchange={handleCheckbox} />
+
+                                            <!-- <lightning-input type="checkbox" class='check' value={rowData.recId}
+                                                disabled={checkboxDisable} onchange={handleCheck} style="padding-right: 5px;"></lightning-input> -->
+                                        </td>
+                                        <td style="max-width: 30%;">
+                                            <input type="text" data-name={rowData.recId} value={rowData.recName} disabled
+                                                style="border-style: none;resize: none;" />
+                                        </td>
+                                        <!-- <td style="max-width: 30%;">
+                                            <input type="text" data-number={rowData.recId} value={rowData.recNumber} disabled
+                                                style="border-style: none;resize: none;" />
+                                        </td> -->
+                                        <td style="max-width: 30%;">
+                                            <lightning-input type="text" required
+                                                message-when-value-missing="Please provide quantity" disabled={rowData.recDisable}
+                                                onchange={handleQty} variant="label-hidden" data-id={rowData.recId}
+                                                value={rowData.recQty} name={rowData.recId}
+                                                placeholder="Please Enter Quantity here...">
+                                            </lightning-input>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button variant="brand" onclick={doneClick} label="Done" title="Done" style="padding-bottom: 20px;">
+                    </lightning-button>
+                </div>
+            </div>
+        </section>
+          <!-- <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    <header class="slds-modal__header header">
+        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate" style="text-align: center;">
+            Send RFQ</h3>
+    </header>
+    <div class="slds-modal__content slds-p-around_medium center-content " id="modal-content-id-1">
+
+        
+
+    <footer class="slds-modal__footer">
+        <lightning-button variant="brand" onclick={doneClick} label="Done" title="Done" style="padding-bottom: 20px;">
+        </lightning-button>
+    </footer> -->
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</template>

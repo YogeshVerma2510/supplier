@@ -1,0 +1,273 @@
+<template>
+  <div class="slds-p-around_medium scroll-1" style="overflow: auto">
+    <div class="slds-grid slds-grid_align-spread">
+      <template if:false={searchcount}>
+        <div class="slds-col slds-align-middle">
+          <div class="slds-p-left_medium slds-text-body_small">
+            {recount} Certificate(s) Found
+          </div>
+        </div>
+      </template>
+      <template if:true={searchcount}>
+        <div class="slds-col slds-align-middle">
+          <div class="slds-p-left_medium slds-text-body_small">
+            {secount} Certificate(s) Found
+          </div>
+        </div>
+      </template>
+      <!-- <div class="slds-col slds-align-middle">
+        <div class="slds-p-left_medium slds-text-body_small">
+          {count} Certificate(s) Found
+        </div>
+      </div> -->
+      <div class="slds-grid">
+        <div class="slds-col slds-p-right_small">
+          <lightning-input value={findname} type="search" onclick={handleClick} label="combobox" role="textbox"
+            variant="label-hidden" placeholder="Search Certificates" onchange={handleChange}>
+          </lightning-input>
+        </div>
+        <!-- <template if:true={showSUP}> -->
+        <div class="slds-col slds-p-right_small">
+          <!-- Ligthing upload button to upload the files on particular record-->
+          <lightning-button label="Add Certificate" onclick={showcreateCert} title="Download action"
+            icon-name="utility:add" class="slds-m-left_x-small">
+          </lightning-button>
+        </div>
+        <!-- </template> -->
+      </div>
+    </div>
+
+    <template if:true={opencreateCert}>
+      <!-- Modal/Popup Box LWC starts here -->
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <!-- Modal/Popup Box LWC header here -->
+          <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+              onclick={cancelCert}>
+              <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+              </lightning-icon>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+              Add Certificate
+            </h2>
+          </header>
+          <!-- Modal/Popup Box LWC body starts here -->
+          <div class="slds-modal__content slds-p-around_medium scroll-1" id="modal-content-id-1" style="overflow: auto">
+            <div class="slds-grid slds-wrap custom-container">
+              <div class="slds-col slds-size_1-of-2 slds-form-element__control">
+                <legend class="slds-form-element__legend slds-form-element__label">
+                  <em style="color: red">*</em>Name Of Certification
+                </legend>
+                <lightning-input type="text" placeholder="Enter Name"
+                  message-when-value-missing="Enter certificate name" required variant="label-hidden"
+                  class="requiredfield resetfields" value={cName} style="padding-bottom: 20px" onchange={handleName}>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-form-element__control">
+                <legend class="slds-form-element__legend slds-form-element__label" style="padding-left: 15px">
+                  <em style="color: red">*</em>Certification Number
+                </legend>
+                <lightning-input type="text" placeholder="Enter Number"
+                  message-when-value-missing="Enter certification number" onchange={handleNum} required
+                  variant="label-hidden" class="requiredfield resetfields" value={cNum}
+                  style="padding-left: 15px; padding-bottom: 20px"></lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-form-element__control">
+                <legend class="slds-form-element__legend slds-form-element__label">
+                  <em style="color: red">*</em>Issuer Name
+                </legend>
+
+                <lightning-input type="text" placeholder="Enter Name" message-when-value-missing="Enter issuer name"
+                  onchange={handleIssuer} class="requiredfield resetfields" required variant="label-hidden"
+                  value={cIssuer} style="padding-bottom: 20px"></lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-form-element__control"
+                style="padding-top: 24px; padding-left: 16px">
+                <div class="slds-form-element uc">
+                <div class="slds-form-element">
+                  <div class="slds-file-selector slds-file-selector_files">
+                    <input type="file" class="slds-file-selector__input slds-assistive-text requiredfield resetfields"
+                      onchange={fileUpload} accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" id="file-upload-input-01"
+                      aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                    <label class="slds-file-selector__body" for="file-upload-input-01"
+                      id="file-selector-secondary-label">
+                      <span class="slds-file-selector__button slds-button slds-button_neutral"
+                        style="color: white; background-color: #1153ac">
+                        <lightning-icon icon-name="action:upload" size="small" style="
+                            color: white;
+                            padding: 1px;
+                            background-color: #1153ac;
+                          ">
+                        </lightning-icon>
+                        <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true"></svg>Upload
+                        certificate
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+                <div if:true={fileNames} style="padding-left: 15px">
+                  {fileNames}
+                  <template if:true={showLoadingSpinner}>
+                    <lightning-spinner alternative-text="Uploading......" size="medium"></lightning-spinner>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Modal/Popup Box LWC footer starts here -->
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={cancelCert} title="Cancel">
+              Cancel
+            </button>
+            <button class="slds-button slds-button_brand" onclick={createCert} title="Save">
+              Save
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <div class="scroll-1" style="height: 100vh; width: 100%; padding: 20px; overflow: auto">
+      <template if:false={showSearchedValues}>
+        <template for:each={fileList} for:item="file" for:index="index">
+          <div class="slds-grid slds-grid_align-spread" style="padding-bottom: 5px" key={file.cerId}>
+            <table key={file.cerId} cellspacing="0" cellpadding="0" class="slds-table">
+              <tbody>
+                <tr style="border-bottom: 0.5px solid rgba(224, 231, 236, 0.233)">
+                  <td onclick={previewHandler} data-id={file.fileId}>
+                    <div style="
+                  padding: 10px;
+                  overflow: hidden;
+                  font-style: normal;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                " class="slds-grid slds-gutters" data-id={file.fileId} onclick={previewHandler}>
+                      <lightning-icon style=" height:85%" icon-name="custom:custom18">
+                      </lightning-icon>
+                      <div>
+                        <p class="slds-col" data-id={file.fileId} onclick={previewHandler}>
+                          {file.fileNam}</p>
+                        <p style="color: gray;padding-left:12px">
+                          {file.fileDate}.{file.fileSize}.{file.fileType}
+                        </p>
+                        <p style="padding-left:12px">Certification Name: {file.cerName}</p>
+                        <p style="padding-left:12px">Certificate Number: {file.cerNum}</p>
+                        <p style="padding-left:12px">Issuer Name: {file.cerIssuer}</p>
+                      </div>
+                    </div>
+
+                  </td>
+                  <td>
+                    <div class="slds-grid slds-grid_align-spread slds-float_right" style="padding-bottom: 70px">
+                      <!-- <template if:true={showSUP}> -->
+                      <lightning-button-icon data-id={file.cerId} data-name={file.fileId} icon-name="utility:delete"
+                        onclick={handleRow}>
+                      </lightning-button-icon>
+                      <!-- </template> -->
+                      &nbsp;
+                      <lightning-button-icon icon-name="utility:download" data-id={file.fileId} onclick={downloadFile}>
+                      </lightning-button-icon>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+      </template>
+      <template if:true={showSearchedValues}>
+        <template for:each={searchList} for:item="file" for:index="index">
+          <div class="slds-grid slds-grid_align-spread" style="padding-bottom: 5px" key={file.cerId}>
+            <table key={file.cerId} cellspacing="0" cellpadding="0" class="slds-table">
+              <tbody>
+                <tr style="border-bottom: 0.5px solid rgba(224, 231, 236, 0.233)">
+                  <td onclick={previewHandler} data-id={file.fileId}>
+                    <div style="
+                  padding: 10px;
+                  overflow: hidden;
+                  font-style: normal;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                " class="slds-grid slds-gutters" data-id={file.fileId} onclick={previewHandler}>
+                      <lightning-icon style=" height:85%" icon-name="custom:custom18">
+                      </lightning-icon>
+                      <div>
+                        <p class="slds-col" data-id={file.fileId} onclick={previewHandler}>
+                          {file.fileNam}</p>
+                        <p style="color: gray;padding-left:12px">
+                          {file.fileDate}.{file.fileSize}.{file.fileType}
+                        </p>
+                        <p style="padding-left:12px">Certification Name: {file.cerName}</p>
+                        <p style="padding-left:12px">Certificate Number: {file.cerNum}</p>
+                        <p style="padding-left:12px">Issuer Name: {file.cerIssuer}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="slds-grid slds-grid_align-spread slds-float_right" style="padding-bottom: 70px">
+                      <!-- <template if:true={showSUP}> -->
+                      <lightning-button-icon data-id={file.cerId} data-name={file.fileId} icon-name="utility:delete"
+                        onclick={handleRow}>
+                      </lightning-button-icon>
+                      <!-- </template> -->
+                      &nbsp;
+                      <lightning-button-icon icon-name="utility:download" data-id={file.fileId} onclick={downloadFile}>
+                      </lightning-button-icon>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+      </template>
+      <template if:true={messageResult}>
+        <p>No results found!!!</p>
+      </template>
+    </div>
+
+    <template if:true={openModal}>
+      <!-- Modal/Popup Box LWC starts here -->
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+        aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container fix">
+          <!-- Modal/Popup Box LWC header here -->
+          <header class="slds-modal__header header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+              onclick={closeModal}>
+              <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small">
+              </lightning-icon>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 data-id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+              Delete Certificate
+            </h2>
+          </header>
+          <!-- Modal/Popup Box LWC body starts here -->
+          <div style="height: 14%" class="slds-modal__content slds-p-around_medium center-content"
+            data-id="modal-content-id-1">
+            <header style="text-align: center">
+              <br />
+              Are you sure you want to delete this certificate?
+            </header>
+          </div>
+          <!-- Modal/Popup Box LWC footer starts here -->
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">
+              Cancel
+            </button>
+            <button class="slds-button slds-button_brand" onclick={handleFileDelete} title="Cancel">
+              Confirm
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+  </div>
+</template>
